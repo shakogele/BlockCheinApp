@@ -1,30 +1,23 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 
-import styles from './welcomeScreenStyles';
-import {welcomeScreenOptions} from './welcomeScreenOptions';
+import {currencyChooserScreenOptions} from './currencyChooserScreenOptions';
+import styles from './currencyChooserScreenStyles';
 
 import CustomHeader from '../../components/UI/CustomHeader/CustomHeader';
-import DsproIcons from '../../components/UI/DsproIcons/DsproIcons';
-import ClickableElement from '../../components/UI/ClickableElement/ClickableElement';
-import gotoScreen from '../../components/UI/GotoScreen/gotoScreen';
 import CurrencyList from '../../components/UI/CurrencyList/CurrencyList';
+import gotoScreen from '../../components/UI/GotoScreen/gotoScreen';
+import ClickableElement from '../../components/UI/ClickableElement/ClickableElement';
+import DsproIcons from '../../components/UI/DsproIcons/DsproIcons';
 
-class WelcomeScreen extends Component{
+class CurrencyChooserScreen extends Component{
 
   constructor(props){
     super(props);
-    this.state={
-      items:[]
-    }
-  };
-
-  static options(){
-    return welcomeScreenOptions;
-  };
-
-  onOpenSideBar = () => {
-    gotoScreen(this.props.componentId, 'sidebar');
+    this.state = {
+      items: [],
+      selectedItem: {}
+    };
   };
 
   componentDidMount(){
@@ -56,13 +49,23 @@ class WelcomeScreen extends Component{
     });
   };
 
+  static options(){
+    return currencyChooserScreenOptions;
+  };
+
+  onSelectElement = (item) => {
+    this.props.onSelectElement(item);
+    gotoScreen(this.props.componentId, "back");
+  }
+
   render(){
-    const header = <Text style={styles.headerText}>{("Welcome to BCHApp").toUpperCase()}</Text>;
-    const listOfBlockChainCurrencies = this.state.items.length > 0
-                                        ? <CurrencyList items={this.state.items}/>
-                                        : <ActivityIndicator size="large" color="#f8a11b" />;
+    const listOfBlockChainCurrencies = this.state.items.length > 0 ?
+                                        <CurrencyList items={this.state.items} onClickItem={(item) => this.onSelectElement(item)}/> :
+                                        <ActivityIndicator size="large" color="#f8a11b" />;
+    const header = <Text style={styles.headerText}>Choose Currency</Text>;
+
     return (
-      <View>
+      <View style={styles.background}>
         <CustomHeader
           topBorder={false}
           leftBlock={
@@ -70,7 +73,7 @@ class WelcomeScreen extends Component{
               inner={
                 <View style={styles.customButton}>
                   <DsproIcons
-                    icon="menu"
+                    icon="arrowLeft"
                     width={20}
                     height={20}
                     color="#f8a11b"
@@ -80,7 +83,7 @@ class WelcomeScreen extends Component{
                     />
                 </View>
               }
-              onPress={this.onOpenSideBar}
+              onPress={() => gotoScreen(this.props.componentId, 'back')}
             />
           }
           centerBlock={header}
@@ -89,7 +92,7 @@ class WelcomeScreen extends Component{
               inner={
                 <View style={styles.customButton}>
                   <DsproIcons
-                    icon="plus"
+                    icon="clear"
                     width={20}
                     height={20}
                     color="#fff"
@@ -99,14 +102,14 @@ class WelcomeScreen extends Component{
                     />
                 </View>
               }
-              onPress={() => gotoScreen(this.props.componentId, 'BlockChainPortfolioApp.AddCurrencyScreen')}
+              onPress={() => gotoScreen(this.props.componentId, 'back')}
             />
           }
         />
         {listOfBlockChainCurrencies}
       </View>
-    );
-  };
-
+    )
+  }
 }
-export default WelcomeScreen;
+
+export default CurrencyChooserScreen;

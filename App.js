@@ -6,11 +6,13 @@ import WelcomeScreen from './src/screens/WelcomeScreen/WelcomeScreen';
 import AddCurrencyScreen from './src/screens/AddCurrencyScreen/AddCurrencyScreen';
 import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 import MyCurrenciesScreen from './src/screens/MyCurrenciesScreen/MyCurrenciesScreen';
+import CurrencyChooserScreen from './src/screens/CurrencyChooserScreen/CurrencyChooserScreen';
 
 Navigation.registerComponent(`BlockChainPortfolioApp.WelcomeScreen`, () => WelcomeScreen);
 Navigation.registerComponent(`BlockChainPortfolioApp.AddCurrencyScreen`, () => AddCurrencyScreen);
 Navigation.registerComponent(`BlockChainPortfolioApp.SideDrawer`, () => SideDrawer);
 Navigation.registerComponent(`BlockChainPortfolioApp.MyCurrenciesScreen`, () => MyCurrenciesScreen);
+Navigation.registerComponent(`BlockChainPortfolioApp.CurrencyChooserScreen`, () => CurrencyChooserScreen);
 
 export default () => Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setDefaultOptions({
@@ -41,7 +43,7 @@ export default () => Navigation.events().registerAppLaunchedListener(() => {
             children: [
               {
                 component: {
-                  name: 'BlockChainPortfolioApp.AddCurrencyScreen'
+                  name: 'BlockChainPortfolioApp.WelcomeScreen'
                 }
               }
             ]
